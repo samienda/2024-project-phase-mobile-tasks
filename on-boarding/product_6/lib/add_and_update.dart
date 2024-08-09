@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_input/image_input.dart';
-import 'package:product_6/data/productData.dart';
+import 'package:product_6/data/product_data.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({super.key});

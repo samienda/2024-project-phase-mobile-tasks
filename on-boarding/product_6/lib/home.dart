@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:product_6/data/productData.dart';
+import 'package:product_6/data/product_data.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});

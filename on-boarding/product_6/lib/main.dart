@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:product_6/add_and_update.dart';
 import 'package:product_6/detail.dart';
