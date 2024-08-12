@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:product_8/core/error/failure.dart';
 import 'package:product_8/features/Product/domain/entities/product.dart';
 import 'package:product_8/features/Product/domain/usecases/update_product.dart';
 
@@ -43,6 +44,22 @@ void main() {
       final result = await updateProductUseCase.updateProduct(oldProduct);
 
       expect(result, const Right(newProduct));
+    },
+  );
+
+
+  const serverFailure = ServerFailure('failed');
+
+  test(
+    'should return failure in when there is a failure',
+    () async {
+      when(mockProductRepository.updateProduct(newProduct)).thenAnswer(
+        (_) async => const Left(serverFailure),
+      );
+
+      final result = await updateProductUseCase.updateProduct(newProduct);
+
+      expect(result, const Left(serverFailure));
     },
   );
 }

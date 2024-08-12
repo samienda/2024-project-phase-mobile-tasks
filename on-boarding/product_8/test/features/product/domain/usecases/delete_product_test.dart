@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:product_8/core/error/failure.dart';
 import 'package:product_8/features/Product/domain/entities/product.dart';
 import 'package:product_8/features/Product/domain/usecases/delete_product.dart';
 
@@ -35,6 +36,21 @@ void main() {
 
       verify(deleteProductUseCase.deleteProduct(testProduct)).called(1);
       expect(result, const Right(unit));
+    },
+  );
+
+  const serverFailure = ServerFailure('failed');
+
+  test(
+    'should return failure in when there is a failure',
+    () async {
+      when(mockProductRepository.deleteProduct(testProduct)).thenAnswer(
+        (_) async => const Left(serverFailure),
+      );
+
+      final result = await deleteProductUseCase.deleteProduct(testProduct);
+
+      expect(result, const Left(serverFailure));
     },
   );
 }
