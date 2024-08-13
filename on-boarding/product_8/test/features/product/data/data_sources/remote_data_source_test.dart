@@ -158,7 +158,7 @@ void main() {
           );
 
           final result = await productRemoteDataSourceImpl.updateProduct(
-              'id', testProduct);
+              testProduct);
 
           expect(result, testProduct);
         },
@@ -167,7 +167,7 @@ void main() {
       test(
         'should return the server exception if the statuscode is 400',
         () async {
-          when(mockHttpClient.put(Uri.parse(Urls.updateProduct('1')),
+          when(mockHttpClient.put(Uri.parse(Urls.updateProduct(testProduct.id)),
                   body: testProduct))
               .thenAnswer(
             (_) async => http.Response(
@@ -178,7 +178,7 @@ void main() {
 
           expect(
               () =>
-                  productRemoteDataSourceImpl.updateProduct('id', testProduct),
+                  productRemoteDataSourceImpl.updateProduct(testProduct),
               throwsA(isA<ServerException>()));
         },
       );
