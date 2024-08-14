@@ -37,7 +37,7 @@ dependencies:
   equatable:
   get_it:
   http:
-
+  internet_connection_checker:
   
 
 dev_dependencies:
