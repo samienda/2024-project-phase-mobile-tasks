@@ -15,13 +15,17 @@ void main() {
   late MockProductRemoteDataSource mockProductRemoteDataSource;
   late ProductRepositoryImpl productRepositoryImpl;
   late MockNetworkInfo mockNetworkInfo;
+  late MockProductLocalDataSource mockProductLocalDataSource;
+  
 
   setUp(
     () {
       mockProductRemoteDataSource = MockProductRemoteDataSource();
       mockNetworkInfo = MockNetworkInfo();
+      mockProductLocalDataSource = MockProductLocalDataSource();
       productRepositoryImpl =
-          ProductRepositoryImpl(mockProductRemoteDataSource, mockNetworkInfo);
+          ProductRepositoryImpl(mockProductRemoteDataSource,
+          mockNetworkInfo, mockProductLocalDataSource);
     },
   );
 
@@ -209,8 +213,11 @@ void main() {
 
 
       test(
-        'should return conection failure when a device is offline',
+        'should return conection failure when a device is offline and there is no cached products',
         () async {
+          when(mockProductLocalDataSource.getProducts())
+              .thenThrow(CacheException());
+
           when(mockNetworkInfo.isConnected)
               .thenAnswer((_) => Future.value(false));
 
@@ -225,12 +232,37 @@ void main() {
                   ConnectionFailure('Failed to connect to the network')));
         },
       );
+
+      
+      test(
+        'should return cached products when a device is offline if available',
+        () async {
+          when(mockProductLocalDataSource.getProducts())
+              .thenAnswer((_) async => testProductsModel);
+
+          when(mockNetworkInfo.isConnected)
+              .thenAnswer((_) => Future.value(false));
+
+          when(mockProductRemoteDataSource.getProducts())
+              .thenAnswer((_) async => testProductsModel);
+
+          final result = await productRepositoryImpl.getProducts();
+
+          final unpackedResult =
+              result.fold((failure) => null, (products) => products);
+          expect(unpackedResult, testProductsEntity);
+        },
+      );
+
+
       test(
         'should throw a server failure when call to data source is unsuccessfull',
         () async {
+          when(mockProductLocalDataSource.getProducts())
+              .thenThrow(CacheException());
+
           when(mockNetworkInfo.isConnected)
               .thenAnswer((_) => Future.value(true));
-
 
           when(mockProductRemoteDataSource.getProducts()).thenThrow(
             (ServerException()),
@@ -243,8 +275,32 @@ void main() {
       );
 
       test(
+        'should return cached products when call to data source is unsuccessfull if available',
+        () async {
+          when(mockProductLocalDataSource.getProducts())
+              .thenAnswer((_) async => testProductsModel);
+
+          when(mockNetworkInfo.isConnected)
+              .thenAnswer((_) => Future.value(true));
+
+          when(mockProductRemoteDataSource.getProducts()).thenThrow(
+            (ServerException()),
+          );
+
+          final result = await productRepositoryImpl.getProducts();
+
+          final unpackedResult =
+              result.fold((failure) => null, (products) => products);
+          expect(unpackedResult, testProductsEntity);
+        },
+      );
+
+      test(
         'should throw a connection failure when the device is not connect to internet',
         () async {
+          when(mockProductLocalDataSource.getProducts())
+              .thenThrow(CacheException());
+
           when(mockNetworkInfo.isConnected)
               .thenAnswer((_) => Future.value(true));
 
@@ -260,6 +316,27 @@ void main() {
               const Left(
                   ConnectionFailure('Failed to connect to the network')));
 
+        },
+      );
+
+      test(
+        'should return a cached products when there is a socket exception',
+        () async {
+          when(mockProductLocalDataSource.getProducts())
+              .thenAnswer((_) async => testProductsModel);
+
+          when(mockNetworkInfo.isConnected)
+              .thenAnswer((_) => Future.value(true));
+
+          when(mockProductRemoteDataSource.getProducts()).thenThrow(
+            (const SocketException('Failed to connect to the network')),
+          );
+
+          final result = await productRepositoryImpl.getProducts();
+
+          final unpackedResult =
+              result.fold((failure) => null, (products) => products);
+          expect(unpackedResult, testProductsEntity);
         },
       );
     },

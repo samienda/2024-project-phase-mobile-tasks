@@ -7,12 +7,19 @@ import '../../../../core/error/failure.dart';
 import '../../../../core/network/network_info.dart';
 import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
+import '../data_sources/local_data_source.dart';
 import '../data_sources/remote_data_source.dart';
 
 class ProductRepositoryImpl extends ProductRepository {
   final ProductRemoteDataSource productRemoteDataSource;
   final NetworkInfo networkInfo;
-  ProductRepositoryImpl(this.productRemoteDataSource, this.networkInfo);
+  final ProductLocalDataSource productLocalDataSourcel;
+
+  ProductRepositoryImpl(
+    this.productRemoteDataSource,
+    this.networkInfo,
+    this.productLocalDataSourcel,
+  );
 
   @override
   Future<Either<Failure, Unit>> deleteProduct(String id) async {
@@ -51,17 +58,44 @@ class ProductRepositoryImpl extends ProductRepository {
     if (await networkInfo.isConnected) {
       try {
       final result = await productRemoteDataSource.getProducts();
+        productLocalDataSourcel.cacheProduct(result);
       return Right(
         (result.map((product) => product.toEntity())).toList(),
       );
     } on ServerException {
-      return const Left(ServerFailure('An error has occured'));
+        try {
+          final result = await productLocalDataSourcel.getProducts();
+
+          return Right(
+            (result.map((product) => product.toEntity())).toList(),
+          );
+        } on CacheException {
+          return const Left(ServerFailure('An error has occured'));
+        }
     } on SocketException {
+        try {
+          final result = await productLocalDataSourcel.getProducts();
+
+          return Right(
+            (result.map((product) => product.toEntity())).toList(),
+          );
+        } on CacheException {
+          return const Left(
+              ConnectionFailure('Failed to connect to the network'));
+        }
+      }
+    } else {
+      try {
+        final result = await productLocalDataSourcel.getProducts();
+
+        return Right(
+          (result.map((product) => product.toEntity())).toList(),
+        );
+      } on CacheException {
         return const Left(
             ConnectionFailure('Failed to connect to the network'));
       }
     }
-    return const Left(ConnectionFailure('Failed to connect to the network'));
   }
 
   @override
