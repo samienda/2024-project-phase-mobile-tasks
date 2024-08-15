@@ -30,7 +30,6 @@ void main() {
       );
 
       final result = ProductModel.fromJson(jsonMap['data']);
-    
 
       expect(result, equals(testProduct));
     },

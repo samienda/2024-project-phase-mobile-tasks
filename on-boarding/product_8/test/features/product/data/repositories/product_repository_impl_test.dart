@@ -16,15 +16,13 @@ void main() {
   late ProductRepositoryImpl productRepositoryImpl;
   late MockNetworkInfo mockNetworkInfo;
   late MockProductLocalDataSource mockProductLocalDataSource;
-  
 
   setUp(
     () {
       mockProductRemoteDataSource = MockProductRemoteDataSource();
       mockNetworkInfo = MockNetworkInfo();
       mockProductLocalDataSource = MockProductLocalDataSource();
-      productRepositoryImpl =
-          ProductRepositoryImpl(mockProductRemoteDataSource,
+      productRepositoryImpl = ProductRepositoryImpl(mockProductRemoteDataSource,
           mockNetworkInfo, mockProductLocalDataSource);
     },
   );
@@ -64,7 +62,6 @@ void main() {
         },
       );
 
-
       test(
         'should return conection failure when a device is offline',
         () async {
@@ -84,13 +81,11 @@ void main() {
         },
       );
 
-
       test(
         'should return a server failure a call to a data source is unsuccesful',
         () async {
           when(mockNetworkInfo.isConnected)
               .thenAnswer((_) => Future.value(true));
-
 
           when(mockProductRemoteDataSource.getOneProduct('1')).thenThrow(
             (ServerException()),
@@ -107,7 +102,6 @@ void main() {
         () async {
           when(mockNetworkInfo.isConnected)
               .thenAnswer((_) => Future.value(true));
-
 
           when(mockProductRemoteDataSource.getOneProduct('1')).thenThrow(
             (const SocketException('Failed to connect to the network')),
@@ -203,14 +197,12 @@ void main() {
               .thenAnswer((_) async => testProductsModel);
 
           final result = await productRepositoryImpl.getProducts();
-          
 
           final unpackedResult =
               result.fold((failure) => null, (products) => products);
           expect(unpackedResult, testProductsEntity);
         },
       );
-
 
       test(
         'should return conection failure when a device is offline and there is no cached products',
@@ -233,7 +225,6 @@ void main() {
         },
       );
 
-      
       test(
         'should return cached products when a device is offline if available',
         () async {
@@ -253,7 +244,6 @@ void main() {
           expect(unpackedResult, testProductsEntity);
         },
       );
-
 
       test(
         'should throw a server failure when call to data source is unsuccessfull',
@@ -304,7 +294,6 @@ void main() {
           when(mockNetworkInfo.isConnected)
               .thenAnswer((_) => Future.value(true));
 
-
           when(mockProductRemoteDataSource.getProducts()).thenThrow(
             (const SocketException('Failed to connect to the network')),
           );
@@ -315,7 +304,6 @@ void main() {
               result,
               const Left(
                   ConnectionFailure('Failed to connect to the network')));
-
         },
       );
 
@@ -350,7 +338,6 @@ void main() {
         () async {
           when(mockNetworkInfo.isConnected)
               .thenAnswer((_) => Future.value(true));
-
 
           when(mockProductRemoteDataSource.insertProduct(testProductModel))
               .thenAnswer((_) async => testProductModel);
@@ -387,7 +374,6 @@ void main() {
           when(mockNetworkInfo.isConnected)
               .thenAnswer((_) => Future.value(true));
 
-
           when(mockProductRemoteDataSource.insertProduct(testProductModel))
               .thenThrow(
                   const SocketException('Failed to connect to the network'));
@@ -406,7 +392,6 @@ void main() {
         () async {
           when(mockNetworkInfo.isConnected)
               .thenAnswer((_) => Future.value(true));
-
 
           when(mockProductRemoteDataSource.insertProduct(testProductModel))
               .thenThrow(ServerException());
@@ -464,7 +449,6 @@ void main() {
           when(mockNetworkInfo.isConnected)
               .thenAnswer((_) => Future.value(true));
 
-
           when(mockProductRemoteDataSource.updateProduct(testProductModel))
               .thenThrow(
                   const SocketException('Failed to connect to the network'));
@@ -483,7 +467,6 @@ void main() {
         () async {
           when(mockNetworkInfo.isConnected)
               .thenAnswer((_) => Future.value(true));
-
 
           when(mockProductRemoteDataSource.updateProduct(testProductModel))
               .thenThrow(ServerException());
@@ -539,7 +522,6 @@ void main() {
           when(mockNetworkInfo.isConnected)
               .thenAnswer((_) => Future.value(true));
 
-
           when(mockProductRemoteDataSource.deleteProduct('1')).thenThrow(
               const SocketException('Failed to connect to the network'));
 
@@ -556,7 +538,6 @@ void main() {
         () async {
           when(mockNetworkInfo.isConnected)
               .thenAnswer((_) => Future.value(true));
-
 
           when(mockProductRemoteDataSource.deleteProduct('1'))
               .thenThrow(ServerException());

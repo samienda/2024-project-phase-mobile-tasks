@@ -24,12 +24,12 @@ class ProductRepositoryImpl extends ProductRepository {
   @override
   Future<Either<Failure, Unit>> deleteProduct(String id) async {
     if (await networkInfo.isConnected) {
-    try {
-      await productRemoteDataSource.deleteProduct(id);
-      return const Right(unit);
-    } on ServerException {
-      return const Left(ServerFailure('An error has occured'));
-    } on SocketException {
+      try {
+        await productRemoteDataSource.deleteProduct(id);
+        return const Right(unit);
+      } on ServerException {
+        return const Left(ServerFailure('An error has occured'));
+      } on SocketException {
         return const Left(
             ConnectionFailure('Failed to connect to the network'));
       }
@@ -41,11 +41,11 @@ class ProductRepositoryImpl extends ProductRepository {
   Future<Either<Failure, ProductEntity>> getOneProduct(String id) async {
     if (await networkInfo.isConnected) {
       try {
-      final result = await productRemoteDataSource.getOneProduct(id);
-      return Right(result.toEntity());
-    } on ServerException {
-      return const Left(ServerFailure('An error has occured'));
-    } on SocketException {
+        final result = await productRemoteDataSource.getOneProduct(id);
+        return Right(result.toEntity());
+      } on ServerException {
+        return const Left(ServerFailure('An error has occured'));
+      } on SocketException {
         return const Left(
             ConnectionFailure('Failed to connect to the network'));
       }
@@ -57,12 +57,12 @@ class ProductRepositoryImpl extends ProductRepository {
   Future<Either<Failure, List<ProductEntity>>> getProducts() async {
     if (await networkInfo.isConnected) {
       try {
-      final result = await productRemoteDataSource.getProducts();
+        final result = await productRemoteDataSource.getProducts();
         productLocalDataSourcel.cacheProduct(result);
-      return Right(
-        (result.map((product) => product.toEntity())).toList(),
-      );
-    } on ServerException {
+        return Right(
+          (result.map((product) => product.toEntity())).toList(),
+        );
+      } on ServerException {
         try {
           final result = await productLocalDataSourcel.getProducts();
 
@@ -72,7 +72,7 @@ class ProductRepositoryImpl extends ProductRepository {
         } on CacheException {
           return const Left(ServerFailure('An error has occured'));
         }
-    } on SocketException {
+      } on SocketException {
         try {
           final result = await productLocalDataSourcel.getProducts();
 
@@ -103,19 +103,18 @@ class ProductRepositoryImpl extends ProductRepository {
       ProductEntity product) async {
     if (await networkInfo.isConnected) {
       try {
-      final result =
-          await productRemoteDataSource.insertProduct(product.toModel());
+        final result =
+            await productRemoteDataSource.insertProduct(product.toModel());
 
-      return Right(result.toEntity());
-    } on ServerException {
-      return const Left(ServerFailure('An error has occured'));
-    } on SocketException {
+        return Right(result.toEntity());
+      } on ServerException {
+        return const Left(ServerFailure('An error has occured'));
+      } on SocketException {
         return const Left(
             ConnectionFailure('Failed to connect to the network'));
       }
     }
     return const Left(ConnectionFailure('Failed to connect to the network'));
-
   }
 
   @override
@@ -123,12 +122,12 @@ class ProductRepositoryImpl extends ProductRepository {
       ProductEntity product) async {
     if (await networkInfo.isConnected) {
       try {
-      final result =
-          await productRemoteDataSource.updateProduct(product.toModel());
-      return Right(result.toEntity());
-    } on ServerException {
-      return const Left(ServerFailure('An error has occured'));
-    } on SocketException {
+        final result =
+            await productRemoteDataSource.updateProduct(product.toModel());
+        return Right(result.toEntity());
+      } on ServerException {
+        return const Left(ServerFailure('An error has occured'));
+      } on SocketException {
         return const Left(
             ConnectionFailure('Failed to connect to the network'));
       }

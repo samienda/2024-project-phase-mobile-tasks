@@ -13,7 +13,6 @@ import '../../../../helper/dummy_data/test_helper.mocks.dart';
 import '../../../../helper/json_reader.dart';
 
 void main() async {
-
   late MockHttpClient mockHttpClient;
   late ProductRemoteDataSourceImpl productRemoteDataSourceImpl;
 
@@ -24,7 +23,6 @@ void main() async {
           ProductRemoteDataSourceImpl(client: mockHttpClient);
     },
   );
-
 
   const jsonurlSingle = 'helper/dummy_data/dummy_product_response.json';
   const jsonurlAll = 'helper/dummy_data/dummy_list_of_product_response.json';
@@ -37,7 +35,6 @@ void main() async {
     imageUrl:
         'C:\\Users\\SAMI\\Documents\\2024-project-phase-mobile-tasks\\on-boarding\\product_8\\assets\\EDVAC.jpeg',
   );
-  
 
   group('get one products', () {
     test(
@@ -166,16 +163,15 @@ void main() async {
               'price': testProduct.price,
             }),
             headers: {'Content-Type': 'application/json'},
-          ))
-              .thenAnswer(
+          )).thenAnswer(
             (_) async => http.Response(
               readJson(jsonurlSingle),
               200,
             ),
           );
 
-          final result = await productRemoteDataSourceImpl.updateProduct(
-              testProduct);
+          final result =
+              await productRemoteDataSourceImpl.updateProduct(testProduct);
 
           expect(result, testProduct);
         },
@@ -184,24 +180,22 @@ void main() async {
       test(
         'should return the server exception if the statuscode is 400',
         () async {
-          when(mockHttpClient.put(Uri.parse(Urls.updateProduct(testProduct.id)),
+          when(mockHttpClient.put(
+            Uri.parse(Urls.updateProduct(testProduct.id)),
             body: jsonEncode({
               'name': testProduct.name,
               'description': testProduct.description,
               'price': testProduct.price,
             }),
             headers: {'Content-Type': 'application/json'},
-          ))
-              .thenAnswer(
+          )).thenAnswer(
             (_) async => http.Response(
               'bad request',
               400,
             ),
           );
 
-          expect(
-              () =>
-                  productRemoteDataSourceImpl.updateProduct(testProduct),
+          expect(() => productRemoteDataSourceImpl.updateProduct(testProduct),
               throwsA(isA<ServerException>()));
         },
       );

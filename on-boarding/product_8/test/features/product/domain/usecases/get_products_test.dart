@@ -63,7 +63,6 @@ void main() {
     },
   );
 
-
   const serverFailure = ServerFailure('failed');
 
   test(

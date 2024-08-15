@@ -26,14 +26,16 @@ void main() {
     imageUrl: 'image',
   );
 
-  test(('should insert a new product to the product collection'), () async {
-    when(mockProductRepository.insertProduct(testProduct)).thenAnswer(
-      (_) async => const Right(testProduct),
-    );
+  test(
+    ('should insert a new product to the product collection'),
+    () async {
+      when(mockProductRepository.insertProduct(testProduct)).thenAnswer(
+        (_) async => const Right(testProduct),
+      );
 
-    final result = await insertProductUseCase.insertProduct(testProduct);
+      final result = await insertProductUseCase.insertProduct(testProduct);
 
-    expect(result, const Right(testProduct));
+      expect(result, const Right(testProduct));
     },
   );
 

@@ -63,21 +63,18 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
 
     http.StreamedResponse response = await request.send();
 
-   
     if (response.statusCode == 201) {
       final body = await response.stream.bytesToString();
       return ProductModel.fromJson(json.decode(body)['data']);
     } else {
       throw ServerException();
     }
-
   }
 
   @override
   Future<ProductModel> updateProduct(ProductModel product) async {
-    
-    final response =
-        await client.put(Uri.parse(Urls.updateProduct(product.id)),
+    final response = await client.put(
+      Uri.parse(Urls.updateProduct(product.id)),
       body: jsonEncode({
         'name': product.name,
         'description': product.description,
@@ -86,12 +83,9 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
       headers: {'Content-Type': 'application/json'},
     );
 
-
     if (response.statusCode == 200) {
-      
       return ProductModel.fromJson(json.decode(response.body)['data']);
     } else {
-
       throw ServerException();
     }
   }
@@ -99,7 +93,7 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
   @override
   Future<Unit> deleteProduct(String id) async {
     final response = await client.delete(Uri.parse(Urls.deleteProduct(id)));
-    
+
     if (response.statusCode == 200) {
       return unit;
     } else {

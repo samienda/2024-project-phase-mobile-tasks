@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
   NetworkInfo,
   SharedPreferences,
   ProductLocalDataSource,
-],
-    customMocks: [MockSpec<http.Client>(as: #MockHttpClient)])
+], customMocks: [
+  MockSpec<http.Client>(as: #MockHttpClient)
+])
 void main() {}

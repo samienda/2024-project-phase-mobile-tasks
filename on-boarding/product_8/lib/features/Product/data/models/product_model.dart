@@ -33,4 +33,3 @@ class ProductModel extends ProductEntity {
         imageUrl: imageUrl,
       );
 }
-
