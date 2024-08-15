@@ -9,9 +9,10 @@ void main() {
   const testProduct = ProductModel(
     id: '1',
     name: 'T-Shirt',
-    price: 0.99,
+    price: 99,
     description: 'A comfortable cotton t-shirt',
-    imageUrl: 'image',
+    imageUrl:
+        'C:\\Users\\SAMI\\Documents\\2024-project-phase-mobile-tasks\\on-boarding\\product_8\\assets\\EDVAC.jpeg',
   );
 
   test(
@@ -28,7 +29,8 @@ void main() {
         readJson('helper/dummy_data/dummy_product_response.json'),
       );
 
-      final result = ProductModel.fromJson(jsonMap);
+      final result = ProductModel.fromJson(jsonMap['data']);
+    
 
       expect(result, equals(testProduct));
     },
@@ -42,9 +44,10 @@ void main() {
       final jsonProduct = {
         'id': '1',
         'name': 'T-Shirt',
-        'price': 0.99,
+        'price': 99,
         'description': 'A comfortable cotton t-shirt',
-        'imageUrl': 'image'
+        'imageUrl':
+            'C:\\Users\\SAMI\\Documents\\2024-project-phase-mobile-tasks\\on-boarding\\product_8\\assets\\EDVAC.jpeg'
       };
 
       expect(result, jsonProduct);

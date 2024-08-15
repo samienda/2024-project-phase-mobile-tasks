@@ -13,7 +13,7 @@ class ProductModel extends ProductEntity {
         id: json['id'],
         name: json['name'],
         description: json['description'],
-        price: json['price'],
+        price: json['price'].toDouble(),
         imageUrl: json['imageUrl'],
       );
 
@@ -33,3 +33,4 @@ class ProductModel extends ProductEntity {
         imageUrl: imageUrl,
       );
 }
+

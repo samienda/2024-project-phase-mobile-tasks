@@ -21,7 +21,7 @@ void main() {
       );
     },
   );
-  const jsonurlAll = 'helper/dummy_data/dummy_list_of_product_response.json';
+  const jsonurlAll = 'helper/dummy_data/cached_products.json';
   final products = List<ProductModel>.from(json
       .decode(readJson(jsonurlAll))
       .map((model) => ProductModel.fromJson(model)));
