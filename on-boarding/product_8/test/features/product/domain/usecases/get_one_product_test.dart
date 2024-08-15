@@ -31,7 +31,7 @@ void main() {
     () async {
       when(mockProductRepository.getOneProduct('1'))
           .thenAnswer((_) async => const Right(testProduct));
-      final result = await getOneProductUseCase.getOneProduct('1');
+      final result = await getOneProductUseCase.call(GetParams(id: '1'));
 
       expect(result, const Right(testProduct));
     },
@@ -46,7 +46,7 @@ void main() {
         (_) async => const Left(serverFailure),
       );
 
-      final result = await getOneProductUseCase.getOneProduct('1');
+      final result = await getOneProductUseCase.call(GetParams(id: '1'));
 
       expect(result, const Left(serverFailure));
     },

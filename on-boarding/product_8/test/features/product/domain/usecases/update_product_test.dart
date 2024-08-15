@@ -41,7 +41,8 @@ void main() {
         (_) async => const Right(newProduct),
       );
 
-      final result = await updateProductUseCase.updateProduct(oldProduct);
+      final result =
+          await updateProductUseCase.call(GetParams(product: newProduct));
 
       expect(result, const Right(newProduct));
     },
@@ -56,7 +57,8 @@ void main() {
         (_) async => const Left(serverFailure),
       );
 
-      final result = await updateProductUseCase.updateProduct(newProduct);
+      final result =
+          await updateProductUseCase.call(GetParams(product: newProduct));
 
       expect(result, const Left(serverFailure));
     },

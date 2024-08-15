@@ -33,7 +33,8 @@ void main() {
         (_) async => const Right(testProduct),
       );
 
-      final result = await insertProductUseCase.insertProduct(testProduct);
+      final result =
+          await insertProductUseCase.call(GetParams(product: testProduct));
 
       expect(result, const Right(testProduct));
     },
@@ -48,7 +49,8 @@ void main() {
         (_) async => const Left(serverFailure),
       );
 
-      final result = await insertProductUseCase.insertProduct(testProduct);
+      final result =
+          await insertProductUseCase.call(GetParams(product: testProduct));
 
       expect(result, const Left(serverFailure));
     },
