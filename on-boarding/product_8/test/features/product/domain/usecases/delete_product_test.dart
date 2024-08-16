@@ -23,9 +23,9 @@ void main() {
       when(mockProductRepository.deleteProduct('1'))
           .thenAnswer((_) async => const Right(unit));
 
-      final result = await deleteProductUseCase.call(GetParams(id: '1'));
+      final result = await deleteProductUseCase.call(DeleteParams(id: '1'));
 
-      verify(deleteProductUseCase.call(GetParams(id: '1'))).called(1);
+      verify(deleteProductUseCase.call(DeleteParams(id: '1'))).called(1);
       expect(result, const Right(unit));
     },
   );
@@ -39,7 +39,7 @@ void main() {
         (_) async => const Left(serverFailure),
       );
 
-      final result = await deleteProductUseCase.call(GetParams(id: '1'));
+      final result = await deleteProductUseCase.call(DeleteParams(id: '1'));
 
       expect(result, const Left(serverFailure));
     },

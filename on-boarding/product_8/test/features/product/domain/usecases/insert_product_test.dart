@@ -34,7 +34,7 @@ void main() {
       );
 
       final result =
-          await insertProductUseCase.call(GetParams(product: testProduct));
+          await insertProductUseCase.call(InsertParams(product: testProduct));
 
       expect(result, const Right(testProduct));
     },
@@ -50,7 +50,7 @@ void main() {
       );
 
       final result =
-          await insertProductUseCase.call(GetParams(product: testProduct));
+          await insertProductUseCase.call(InsertParams(product: testProduct));
 
       expect(result, const Left(serverFailure));
     },

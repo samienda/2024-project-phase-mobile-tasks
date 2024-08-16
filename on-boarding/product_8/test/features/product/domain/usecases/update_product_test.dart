@@ -42,7 +42,7 @@ void main() {
       );
 
       final result =
-          await updateProductUseCase.call(GetParams(product: newProduct));
+          await updateProductUseCase.call(UpdateParams(product: newProduct));
 
       expect(result, const Right(newProduct));
     },
@@ -58,7 +58,7 @@ void main() {
       );
 
       final result =
-          await updateProductUseCase.call(GetParams(product: newProduct));
+          await updateProductUseCase.call(UpdateParams(product: newProduct));
 
       expect(result, const Left(serverFailure));
     },

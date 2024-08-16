@@ -38,10 +38,13 @@ dependencies:
   get_it:
   http:
   internet_connection_checker:
-  shared_preferences: 
+  shared_preferences:
+  bloc:  
+  rxdart: 
   
 
 dev_dependencies:
+  bloc_test:
   flutter_test:
     sdk: flutter
 

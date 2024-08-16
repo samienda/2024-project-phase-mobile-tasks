@@ -6,20 +6,20 @@ import '../../../../core/usecase/usecase.dart';
 import '../entities/product.dart';
 import '../repositories/product_repository.dart';
 
-class InsertProductUseCase implements Usecase<ProductEntity, GetParams> {
+class InsertProductUseCase implements Usecase<ProductEntity, InsertParams> {
   final ProductRepository productRepository;
   InsertProductUseCase(this.productRepository);
 
   @override
-  Future<Either<Failure, ProductEntity>> call(GetParams params) {
+  Future<Either<Failure, ProductEntity>> call(InsertParams params) {
     return productRepository.insertProduct(params.product);
   }
 }
 
-class GetParams extends Equatable {
+class InsertParams extends Equatable {
   final ProductEntity product;
 
-  GetParams({required this.product});
+  InsertParams({required this.product});
 
   @override
   List<Object?> get props => [product];
