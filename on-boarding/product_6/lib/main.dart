@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:product_6/add_and_update.dart';
-import 'package:product_6/detail.dart';
-import 'package:product_6/home.dart';
-import 'package:product_6/search.dart';
+import 'package:product_6/screens/add_and_update.dart';
+import 'package:product_6/screens/detail.dart';
+import 'package:product_6/screens/home.dart';
+import 'package:product_6/screens/search.dart';
 
 void main() {
   runApp(

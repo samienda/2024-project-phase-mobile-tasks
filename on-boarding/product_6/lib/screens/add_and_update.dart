@@ -11,15 +11,15 @@ class AddProduct extends StatefulWidget {
 
 class _AddProductState extends State<AddProduct> {
   final _formKey = GlobalKey<FormState>();
-  String? _name;
-  String? _catagory;
-  double? _price;
-  String? _description;
+  late String _name;
+  late String _catagory;
+  late double _price;
+  late String _description;
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       // if (_name != null && _catagory != null && _price != null && _description != null){
-      // products.add(Product(_name, _catagory, _price, _description));
+      products.add(Product(_name, _catagory, _price, _description));
       // }
       _formKey.currentState!.save();
     }
@@ -82,7 +82,9 @@ class _AddProductState extends State<AddProduct> {
                   ),
                   TextFormField(
                     onSaved: (value) {
+                      if (value != null) {
                       _name = value;
+                      }
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -109,7 +111,10 @@ class _AddProductState extends State<AddProduct> {
                   ),
                   TextFormField(
                     onSaved: (value) {
+                      if (value != null) {
                       _catagory = value;
+
+                      }
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -166,7 +171,10 @@ class _AddProductState extends State<AddProduct> {
                   ),
                   TextFormField(
                     onSaved: (value) {
+                      if (value != null) {
+
                       _description = value;
+                      }
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
