@@ -11,24 +11,25 @@ import 'product_event.dart';
 import 'product_state.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
-  final GetOneProductUseCase _getOneProductUseCase;
-  final GetProductsUseCase _getProductsUseCase;
-  final UpdateProductUseCase _updateProductUseCase;
-  final DeleteProductUseCase _deleteProductUseCase;
-  final InsertProductUseCase _insertProductUseCase;
+  final GetOneProductUseCase getOneProductUseCase;
+  final GetProductsUseCase getProductsUseCase;
+  final UpdateProductUseCase updateProductUseCase;
+  final DeleteProductUseCase deleteProductUseCase;
+  final InsertProductUseCase insertProductUseCase;
 
   ProductBloc(
-    this._getOneProductUseCase,
-    this._getProductsUseCase,
-    this._updateProductUseCase,
-    this._deleteProductUseCase,
-    this._insertProductUseCase,
-  ) : super(IntialState()) {
+  {
+    required this.getOneProductUseCase,
+    required this.getProductsUseCase,
+    required this.updateProductUseCase,
+    required this.deleteProductUseCase,
+    required this.insertProductUseCase,
+  }) : super(IntialState()) {
     on<GetSingleProductEvent>(
       (event, emit) async {
         emit(LoadingState());
         final result =
-            await _getOneProductUseCase.call(GetParams(id: event.id));
+            await getOneProductUseCase.call(GetParams(id: event.id));
         result.fold(
           (failure) {
             emit(ProductLoadFailure(failure.message));
@@ -44,7 +45,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<LoadAllProductEvent>(
       (event, emit) async {
         emit(LoadingState());
-        final result = await _getProductsUseCase.call(NoParams());
+        final result = await getProductsUseCase.call(NoParams());
         result.fold(
           (failure) {
             emit(ProductLoadFailure(failure.message));
@@ -60,7 +61,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<UpdateProductEvent>(
       (event, emit) async {
         emit(ProductUpdating());
-        final result = await _updateProductUseCase
+        final result = await updateProductUseCase
             .call(UpdateParams(product: event.product));
         result.fold(
           (failure) {
@@ -77,7 +78,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<DeleteProductEvent>((event, emit) async {
       emit(ProductDeleting());
       final result =
-          await _deleteProductUseCase.call(DeleteParams(id: event.id));
+          await deleteProductUseCase.call(DeleteParams(id: event.id));
 
       result.fold((failure) {
         emit(ProductDeletedFailure(failure.message));
@@ -88,9 +89,10 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
     on<InsertProductEvent>((event, emit) async {
       emit(ProductInserting());
-      final result = await _insertProductUseCase
+      final result =
+          await insertProductUseCase
           .call(InsertParams(product: event.product));
-
+      
       result.fold(
         (failure) => emit(ProductInsertedFailure(failure.message)),
         (data) => emit(ProductInserted(data)),

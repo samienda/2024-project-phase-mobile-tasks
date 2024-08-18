@@ -8,7 +8,7 @@ import '../repositories/product_repository.dart';
 
 class UpdateProductUseCase extends Usecase<ProductEntity, UpdateParams> {
   final ProductRepository productRepository;
-  UpdateProductUseCase(this.productRepository);
+  UpdateProductUseCase({required this.productRepository});
 
   @override
   Future<Either<Failure, ProductEntity>> call(UpdateParams params) {

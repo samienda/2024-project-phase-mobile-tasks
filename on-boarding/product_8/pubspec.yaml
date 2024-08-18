@@ -39,7 +39,7 @@ dependencies:
   http:
   internet_connection_checker:
   shared_preferences:
-  bloc:  
+  flutter_bloc:  
   rxdart: 
   image_input: ^0.0.5
   

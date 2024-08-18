@@ -7,7 +7,7 @@ import '../repositories/product_repository.dart';
 
 class GetProductsUseCase implements Usecase<List<ProductEntity>, NoParams> {
   final ProductRepository productRepository;
-  GetProductsUseCase(this.productRepository);
+  GetProductsUseCase({required this.productRepository});
 
   @override
   Future<Either<Failure, List<ProductEntity>>> call(NoParams params) {

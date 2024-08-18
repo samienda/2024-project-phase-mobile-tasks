@@ -13,7 +13,7 @@ void main() {
   setUp(
     () {
       mockProductRepository = MockProductRepository();
-      deleteProductUseCase = DeleteProductUseCase(mockProductRepository);
+      deleteProductUseCase = DeleteProductUseCase(productRepository:  mockProductRepository);
     },
   );
 

@@ -8,7 +8,7 @@ import '../repositories/product_repository.dart';
 
 class InsertProductUseCase implements Usecase<ProductEntity, InsertParams> {
   final ProductRepository productRepository;
-  InsertProductUseCase(this.productRepository);
+  InsertProductUseCase({required this.productRepository});
 
   @override
   Future<Either<Failure, ProductEntity>> call(InsertParams params) {

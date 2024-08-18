@@ -16,9 +16,11 @@ class ProductRepositoryImpl extends ProductRepository {
   final ProductLocalDataSource productLocalDataSourcel;
 
   ProductRepositoryImpl(
-    this.productRemoteDataSource,
-    this.networkInfo,
-    this.productLocalDataSourcel,
+{
+    required this.productRemoteDataSource,
+    required this.networkInfo,
+    required this.productLocalDataSourcel,
+  }
   );
 
   @override

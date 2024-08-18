@@ -11,7 +11,8 @@ void main() {
   setUp(
     () {
       mockInternetConnectionChecker = MockInternetConnectionChecker();
-      networkInfoImpl = NetworkInfoImpl(mockInternetConnectionChecker);
+      networkInfoImpl = NetworkInfoImpl(
+          internetConnectionChecker: mockInternetConnectionChecker);
     },
   );
 

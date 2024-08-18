@@ -31,11 +31,11 @@ void main() {
       mockDeleteProductUseCase = MockDeleteProductUseCase();
       mockInsertProductUseCase = MockInsertProductUseCase();
       productBloc = ProductBloc(
-        mockGetOneProductUseCase,
-        mockGetProductsUseCase,
-        mockUpdateProductUseCase,
-        mockDeleteProductUseCase,
-        mockInsertProductUseCase,
+        getOneProductUseCase: mockGetOneProductUseCase,
+        getProductsUseCase: mockGetProductsUseCase,
+        updateProductUseCase: mockUpdateProductUseCase,
+        deleteProductUseCase: mockDeleteProductUseCase,
+        insertProductUseCase: mockInsertProductUseCase,
       );
     },
   );

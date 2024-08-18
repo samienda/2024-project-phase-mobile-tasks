@@ -8,7 +8,7 @@ import '../repositories/product_repository.dart';
 
 class GetOneProductUseCase implements Usecase<ProductEntity, GetParams> {
   final ProductRepository productRepository;
-  GetOneProductUseCase(this.productRepository);
+  GetOneProductUseCase({required this.productRepository});
 
   
   @override

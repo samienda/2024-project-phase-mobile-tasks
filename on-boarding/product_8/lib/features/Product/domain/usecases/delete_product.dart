@@ -7,7 +7,7 @@ import '../repositories/product_repository.dart';
 
 class DeleteProductUseCase implements Usecase<void, DeleteParams> {
   final ProductRepository productRepository;
-  const DeleteProductUseCase(this.productRepository);
+  const DeleteProductUseCase({required this.productRepository});
 
   
   

@@ -5,8 +5,10 @@ import 'features/Product/presentation/screens/detail.dart';
 import 'features/Product/presentation/screens/home.dart';
 import 'features/Product/presentation/screens/search.dart';
 import 'features/Product/presentation/widgets/scroller.dart';
+import 'injection_container.dart';
 
 void main() {
+  setupLocator();
   runApp(
     MaterialApp(
       scrollBehavior: MyCustomScrollBehavior(),

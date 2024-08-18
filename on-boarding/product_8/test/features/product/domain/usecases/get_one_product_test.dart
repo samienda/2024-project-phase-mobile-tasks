@@ -14,7 +14,8 @@ void main() {
   setUp(
     () {
       mockProductRepository = MockProductRepository();
-      getOneProductUseCase = GetOneProductUseCase(mockProductRepository);
+      getOneProductUseCase =
+          GetOneProductUseCase(productRepository: mockProductRepository);
     },
   );
 
