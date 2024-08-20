@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_input/image_input.dart';
 
 import '../../domain/entities/product.dart';
-import '../product_data.dart';
+import '../bloc/product_bloc.dart';
+import '../bloc/product_event.dart';
+import '../bloc/product_state.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({super.key});
@@ -13,31 +18,22 @@ class AddProduct extends StatefulWidget {
 
 class _AddProductState extends State<AddProduct> {
   final _formKey = GlobalKey<FormState>();
-  late String _name;
-  late String _catagory;
-  late double _price;
-  late String _description;
 
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      // if (_name != null && _catagory != null && _price != null && _description != null){
-      products.add(ProductEntity(
-        id: '1',
-        name: _name,
-        description: _description,
-        price: _price,
-        imageUrl: _catagory,
-      ));
-      // }
-      _formKey.currentState!.save();
+  File? _image;
+  String? _name;
+  double? _price;
+  String? _description;
+
+  bool isNumeric(String? s) {
+    if (s == null) {
+      return false;
     }
+    return double.tryParse(s) != null;
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           leading: IconButton.outlined(
             color: Colors.white,
@@ -75,8 +71,9 @@ class _AddProductState extends State<AddProduct> {
                   ImageInput(
                     imageSize: const Size(380, 200),
                     allowMaxImage: 1,
-                    onImageSelected: (image) {},
-                    onImageRemoved: (image, index) {},
+                  onImageSelected: (image) {
+                    _image = File(image.path);
+                  },
                   ),
                   const SizedBox(
                     height: 20,
@@ -110,38 +107,7 @@ class _AddProductState extends State<AddProduct> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const Text(
-                    'catagory',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                    ),
-                  ),
-                  TextFormField(
-                    onSaved: (value) {
-                      if (value != null) {
-                        _catagory = value;
-                      }
-                    },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          width: 0.1,
-                        ),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Text(
+                const Text(
                     'price',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
@@ -155,8 +121,8 @@ class _AddProductState extends State<AddProduct> {
                       }
                     },
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
+                    if (!isNumeric(value)) {
+                      return 'Please enter the valid price';
                       }
                       return null;
                     },
@@ -200,20 +166,56 @@ class _AddProductState extends State<AddProduct> {
                   ),
                   Column(
                     children: [
-                      OutlinedButton(
-                        onPressed: _submitForm,
-                        style: OutlinedButton.styleFrom(
-                            backgroundColor: const Color(0xFF3F51F3),
-                            fixedSize: const Size(380, 55),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10))),
-                        child: const Text(
-                          'ADD',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                          ),
+                    BlocListener<ProductBloc, ProductState>(
+                      listener: (context, state) {
+                        if (state is ProductInserted) {
+                          Navigator.of(context).pushNamed('/home');
+                        }
+
+                        if (state is ProductInsertedFailure) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(state.message)),
+                          );
+                        }
+                      },
+                      child: BlocBuilder<ProductBloc, ProductState>(
+                        builder: (context, state) {
+                          return OutlinedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
+                                if (_name != null &&
+                                    _description != null &&
+                                    _price != null &&
+                                    _image != null) {
+                                  context.read<ProductBloc>().add(
+                                        InsertProductEvent(ProductEntity(
+                                            id: 'id',
+                                            name: _name!,
+                                            description: _description!,
+                                            price: _price!,
+                                            imageUrl: _image!.path)),
+                                      );
+                                }
+                              }
+                            },
+                            style: OutlinedButton.styleFrom(
+                                backgroundColor: const Color(0xFF3F51F3),
+                                fixedSize: const Size(380, 55),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10))),
+                            child: (state is ProductInserting)
+                                ? const CircularProgressIndicator()
+                                : const Text(
+                                    'ADD',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                          );
+                        },
                         ),
                       ),
                       const SizedBox(
@@ -248,7 +250,7 @@ class _AddProductState extends State<AddProduct> {
             ),
           ),
         ),
-      ),
+      
     );
   }
 }

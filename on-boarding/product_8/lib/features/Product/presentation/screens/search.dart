@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../product_data.dart';
+import '../bloc/product_bloc.dart';
+import '../bloc/product_event.dart';
+import '../bloc/product_state.dart';
 import '../widgets/product_card.dart';
 import '../widgets/search_bar.dart';
 
@@ -9,9 +12,8 @@ class Search extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    context.read<ProductBloc>().add(LoadAllProductEvent());
+    return Scaffold(
         appBar: AppBar(
           leading: IconButton.outlined(
             color: Colors.white,
@@ -43,19 +45,49 @@ class Search extends StatelessWidget {
         body: Column(
           children: [
             const MySearchBar(),
-            Expanded(
-              child: ListView.builder(
-                itemCount: products.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ProductCard(
-                    product: products[index],
+            BlocBuilder<ProductBloc, ProductState>(
+              builder: (context, state) {
+                if (state is LoadingState) {
+                  return const Center(
+                    heightFactor: 10,
+                    child: CircularProgressIndicator(),
                   );
-                },
-              ),
+                }
+                if (state is LoadedAllProductState) {
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: state.products.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ProductCard(
+                          product: state.products[index],
+                        );
+                      },
+                    ),
+                  );
+                }
+                if (state is ProductLoadFailure) {
+                  return Center(
+                    heightFactor: 5,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(state.message),
+                        IconButton.outlined(
+                          onPressed: () {
+                            context
+                                .read<ProductBloc>()
+                                .add(LoadAllProductEvent());
+                          },
+                          icon: const Icon(Icons.refresh_outlined),
+                        )
+                      ],
+                    ),
+                  );
+                }
+                return Container();
+              },
             ),
           ],
-        ),
-      ),
-    );
+        ));
   }
 }

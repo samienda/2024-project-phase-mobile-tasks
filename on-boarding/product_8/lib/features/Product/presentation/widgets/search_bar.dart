@@ -102,7 +102,7 @@ class _MySearchBarState extends State<MySearchBar> {
                 isDense: true,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 15.0),
                 /* -- Text and Icon -- */
-                hintText: "Leather",
+                hintText: 'Leather',
                 hintStyle: const TextStyle(
                     fontSize: 20,
                     color: Color(0xFF666666),

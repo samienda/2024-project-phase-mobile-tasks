@@ -73,6 +73,7 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
 
   @override
   Future<ProductModel> updateProduct(ProductModel product) async {
+   
     final response = await client.put(
       Uri.parse(Urls.updateProduct(product.id)),
       body: jsonEncode({

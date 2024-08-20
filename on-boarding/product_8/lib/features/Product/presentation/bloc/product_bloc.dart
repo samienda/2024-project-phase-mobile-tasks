@@ -97,7 +97,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         (failure) => emit(ProductInsertedFailure(failure.message)),
         (data) => emit(ProductInserted(data)),
       );
-    }, transformer: debounce(const Duration(microseconds: 500)));
+      },
+    );
   }
 }
 

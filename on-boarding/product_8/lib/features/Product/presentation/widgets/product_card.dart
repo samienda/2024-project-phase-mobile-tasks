@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/product.dart';
@@ -24,10 +25,18 @@ class ProductCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.asset(
-              'assets/shoe.jpg',
-              fit: BoxFit.cover,
+            Container(
+              height: 150,
+              width: double.infinity,
+              padding: const EdgeInsets.all(0),
+              child: CachedNetworkImage(
+                imageUrl: product.imageUrl,
+                fit: BoxFit.cover,
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
+              ),
             ),
+            
             Padding(
               padding: const EdgeInsets.all(
                 15,

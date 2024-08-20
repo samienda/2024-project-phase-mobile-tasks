@@ -17,7 +17,7 @@ import 'features/Product/presentation/bloc/product_bloc.dart';
 
 final locator = GetIt.instance;
 
-void setupLocator() async {
+Future<void> setupLocator() async {
   //bloc
   locator.registerFactory(() => ProductBloc(
         getProductsUseCase: locator(),
@@ -67,7 +67,7 @@ void setupLocator() async {
   );
 
   // core
-  locator.registerLazySingleton(
+  locator.registerLazySingleton<NetworkInfo>(
     () => NetworkInfoImpl(internetConnectionChecker: locator()),
   );
 
