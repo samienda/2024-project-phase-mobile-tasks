@@ -9,6 +9,7 @@ class MySearchBar extends StatefulWidget {
 
 class _MySearchBarState extends State<MySearchBar> {
   final _formKey = GlobalKey<FormState>();
+
   String? _catagory;
   static const min = 0.0;
   static const max = 10.0;
@@ -29,6 +30,7 @@ class _MySearchBarState extends State<MySearchBar> {
         child: Column(
           children: [
             Form(
+              key: _formKey,
               child: Padding(
                 padding: const EdgeInsets.all(32),
                 child: Column(
@@ -63,6 +65,7 @@ class _MySearchBarState extends State<MySearchBar> {
                     ),
                     Center(
                       child: OutlinedButton(
+                        key: const Key('button_on_filter_modal_form'),
                         style: OutlinedButton.styleFrom(
                             backgroundColor: const Color(0xFF3F51F3),
                             fixedSize: const Size(300, 40),
@@ -90,12 +93,14 @@ class _MySearchBarState extends State<MySearchBar> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Padding(
       padding: const EdgeInsets.all(18.0),
       child: Row(
         children: [
           Expanded(
             child: TextField(
+              key: const Key('search_text_field'),
               decoration: InputDecoration(
                 filled: true,
                 fillColor: const Color(0xFFFFFFFF),
@@ -142,6 +147,7 @@ class _MySearchBarState extends State<MySearchBar> {
             width: 5,
           ),
           OutlinedButton(
+            key: const Key('filter_button_in_search'),
             style: OutlinedButton.styleFrom(
               backgroundColor: const Color(0xFF3F51F3),
               fixedSize: const Size(48, 48),

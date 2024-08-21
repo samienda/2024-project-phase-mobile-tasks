@@ -65,6 +65,9 @@ class DetailPage extends StatelessWidget {
                                 color: Colors.white,
                               )),
                           onPressed: () {
+                            context
+                                .read<ProductBloc>()
+                                .add(LoadAllProductEvent());
                             Navigator.of(context).pop();
                           },
                           icon: const Icon(
