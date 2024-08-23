@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,10 +8,16 @@ import '../bloc/product_event.dart';
 import '../bloc/product_state.dart';
 import '../widgets/product_card.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  
+
   Widget build(BuildContext context) {
     context.read<ProductBloc>().add(LoadAllProductEvent());
 

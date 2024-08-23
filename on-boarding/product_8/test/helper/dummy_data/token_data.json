@@ -1,0 +1,7 @@
+{
+    "statusCode": 201,
+    "message": "",
+    "data": {
+        "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAZ21haWwuY29tIiwic3ViIjoiNjZiZGUzNmU5YmJlMDdmYzM5MDM0Y2RkIiwiaWF0IjoxNzI0MjUwODkwLCJleHAiOjE3MjQ2ODI4OTB9.q7nSmnh4nBuvvG-IpX3xzE9dShmgpGWxAH4Cmd-9iUs"
+    }
+}

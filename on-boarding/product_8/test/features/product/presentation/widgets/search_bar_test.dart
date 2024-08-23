@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:product_8/features/Product/domain/entities/product.dart';
+// import 'package:product_8/features/Product/domain/entities/product.dart';
 import 'package:product_8/features/Product/presentation/widgets/search_bar.dart';
 
 import '../../../../helper/dummy_data/test_helper.mocks.dart';
@@ -29,14 +29,14 @@ void main() {
     );
   }
 
-  const testProduct = ProductEntity(
-    id: '1',
-    name: 'T-Shirt',
-    price: .99,
-    description: 'A comfortable cotton t-shirt',
-    imageUrl:
-        'https://res.cloudinary.com/g5-mobile-track/image/upload/v1724144139/images/ulnr7qrqzjy06w7qvyll.jpg',
-  );
+  // const testProduct = ProductEntity(
+  //   id: '1',
+  //   name: 'T-Shirt',
+  //   price: .99,
+  //   description: 'A comfortable cotton t-shirt',
+  //   imageUrl:
+  //       'https://res.cloudinary.com/g5-mobile-track/image/upload/v1724144139/images/ulnr7qrqzjy06w7qvyll.jpg',
+  // );
 
   testWidgets(
     'should render the search bar properly',
@@ -62,11 +62,11 @@ void main() {
 
       await tester.tap(filterButton);
 
-      await const Duration(microseconds: 1000000);
+      // await const Duration(microseconds: 1000000);
 
-      final textFormField = find.byType(Form);
+      // final textFormField = find.byType(Form);
 
-      print(textFormField);
+      // print(textFormField);
       // expect(textFormField, findsOneWidget);
     },
   );

@@ -19,3 +19,9 @@ class ConnectionFailure extends Failure {
 class CacheFailure extends Failure {
   const CacheFailure(super.message);
 }
+
+
+
+class UnAuthorizedFailure extends Failure {
+  const UnAuthorizedFailure(super.message);
+}
